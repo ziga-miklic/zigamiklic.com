@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#313846">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#313846">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <title>Refactoring With Confidence</title>
+  <link rel="canonical" href="https://zigamiklic.com/refactoring-with-confidence/" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Refactoring With Confidence" />
+  <meta property="og:description" content="An example of using a unit test to boost our confidence when making refactorings." />
+  <meta property="og:url" content="https://zigamiklic.com/refactoring-with-confidence/" />
+  <meta property="og:site_name" content="Blog by Žiga Miklič" />
+  <meta property="article:published_time" content="2022-05-16T13:46:00+00:00" />
+  <meta property="article:modified_time" content="2022-05-26T11:26:23+00:00" />
+  <meta property="og:image" content="https://zigamiklic.com/assets/img/posts/refactoring-with-confidence.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="675" />
+  <meta property="og:image:type" content="image/png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://zigamiklic.com/assets/img/posts/refactoring-with-confidence.png" />
+  <meta name="twitter:creator" content="@zigamiklic" />
+  <meta name="twitter:site" content="@zigamiklic" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://zigamiklic.com/#website","url":"https://zigamiklic.com/","name":"Blog by Žiga Miklič","description":"","inLanguage":"en-US"},{"@type":"ImageObject","inLanguage":"en-US","@id":"https://zigamiklic.com/refactoring-with-confidence/#primaryimage","url":"https://zigamiklic.com/assets/img/posts/refactoring-with-confidence.png","contentUrl":"https://zigamiklic.com/assets/img/posts/refactoring-with-confidence.png","width":1200,"height":675},{"@type":"WebPage","@id":"https://zigamiklic.com/refactoring-with-confidence/#webpage","url":"https://zigamiklic.com/refactoring-with-confidence/","name":"Refactoring With Confidence","isPartOf":{"@id":"https://zigamiklic.com/#website"},"primaryImageOfPage":{"@id":"https://zigamiklic.com/refactoring-with-confidence/#primaryimage"},"datePublished":"2022-05-16T13:46:00+00:00","dateModified":"2022-05-26T11:26:23+00:00","author":{"@id":"https://zigamiklic.com/#/schema/person/387c55cf9186d8933eac06ba734d7266"},"breadcrumb":{"@id":"https://zigamiklic.com/refactoring-with-confidence/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://zigamiklic.com/refactoring-with-confidence/"]}]},{"@type":"BreadcrumbList","@id":"https://zigamiklic.com/refactoring-with-confidence/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://zigamiklic.com/"},{"@type":"ListItem","position":2,"name":"Refactoring With Confidence"}]},{"@type":"Person","@id":"https://zigamiklic.com/#/schema/person/387c55cf9186d8933eac06ba734d7266","name":"ziga-miklic","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://zigamiklic.com/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/b3e77ff043e47aa9160af3dacd6ec7fc?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/b3e77ff043e47aa9160af3dacd6ec7fc?s=96&d=mm&r=g","caption":"ziga-miklic"}}]}</script>
+  <link rel="stylesheet" href="/assets/css/atom-one-dark.min.css">
+  <link rel="stylesheet" href="/assets/css/reboot.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script>
+    (function () {
+      var m = document.cookie.match(/(?:^|; )zm-theme=(light|dark)/);
+      if (m) document.documentElement.classList.add("theme--" + m[1]);
+    })();
+  </script>
+  <script src="/assets/js/app.js" defer></script>
+</head>
+<body class="single-post">
+
+  <div class="site">
+    <div class="container">
+
+<a href="/" class="home-link">See all posts</a>
+
+  <article class="post-single">
+    <header class="post-single__header">
+      <h1 class="post-single__title">Refactoring With Confidence</h1>
+      <div class="post-single-meta">
+        <div class="post-single-meta__item--date">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          May 16, 2022 
+        </div>
+        <div class="post-single-meta__item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          4 min
+        </div>
+      </div>
+
+      <div class="post-single__img wp-block-image">    </header>
+
+    <div class="post-single__content">
+
+<p>Last week while I was making changes to our <strong>constants.js</strong> file, I spotted that we could improve its maintainability and readability. But before I could put on my refactoring glasses, I first had to make sure I would not introduce any new bugs into the codebase.</p>
+
+<p>Because the list of constants that I would need to change was quite long, there was a high chance I would make a mistake. Our automated tests would most likely not catch the bug as our <strong>constants.js</strong> file is not explicitly tested as it does not contain any logic. So to improve my confidence in making the changes, I first created a (throwaway) unit test. Although I generally avoid using <a rel="noreferrer noopener" href="https://jestjs.io/docs/snapshot-testing" target="_blank">Jest snapshots</a>, I think this was an ideal use case for them.</p>
+
+<h2>Inspecting the Problems</h2>
+
+<p>Let&#8217;s start by taking a look at our initial constants object:</p>
+
+<pre class="wp-block-code"><code class="hljs"><span class="hljs-keyword">const</span> constants = {
+  <span class="hljs-attr">CHANNEL_BLOG</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">CHANNEL_WORDPRESS</span>: <span class="hljs-number">2</span>,
+  <span class="hljs-attr">CHANNEL_SHOPIFY</span>: <span class="hljs-number">3</span>,
+  <span class="hljs-attr">CHANNEL_FACEBOOK</span>: <span class="hljs-number">5</span>,
+  <span class="hljs-attr">CHANNEL_TWITTER</span>: <span class="hljs-number">6</span>,
+
+  <span class="hljs-attr">CHANNEL_GROUP_PERSONAL</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>],
+  <span class="hljs-attr">CHANNEL_GROUP_SOCIAL</span>: [<span class="hljs-number">5</span>, <span class="hljs-number">6</span>],
+  <span class="hljs-attr">CHANNEL_NAMES</span>: {
+    <span class="hljs-number">1</span>: <span class="hljs-string">'Blog'</span>,
+    <span class="hljs-number">2</span>: <span class="hljs-string">'WordPress'</span>,
+    <span class="hljs-number">3</span>: <span class="hljs-string">'Shopify'</span>,
+    <span class="hljs-number">5</span>: <span class="hljs-string">'Facebook'</span>,
+    <span class="hljs-number">6</span>: <span class="hljs-string">'Twitter'</span>,
+  },
+  <span class="hljs-attr">CHANNEL_ROUTES</span>: {
+    <span class="hljs-number">1</span>: <span class="hljs-string">'channels/blog'</span>,
+    <span class="hljs-number">2</span>: <span class="hljs-string">'channels/wordpress'</span>,
+    <span class="hljs-number">3</span>: <span class="hljs-string">'channels/shopify'</span>,
+    <span class="hljs-number">5</span>: <span class="hljs-string">'channels/facebook'</span>,
+    <span class="hljs-number">6</span>: <span class="hljs-string">'channels/twitter'</span>,
+  },
+};</code></pre>
+
+<p>The above object is a smaller version of the real one so it more easily illustrates all the issues that I wanted to fix:</p>
+
+<ul><li>The value of each channel is located in three or more locations. This means if we would need to change the value of a channel, we would need to make sure to do so in all locations. Spoiler alert, you will most likely miss changing one of them.</li><li>The values can become out of sync as the values are not linked with each other. You may have spotted such an issue in the above example. At some point, someone removed the <code>CHANNEL_ARTICLE</code> with the value of <code>4</code>. They removed its definition, name, and route; but forgot to exclude it from all the channel groups (see <code>CHANNEL_GROUP_PERSONAL</code>).</li><li>The channel groups are hard to read as you need to manually/mentally map a value to the corresponding channel name. This means if you want to remove the Facebook channel from the <code>CHANNEL_GROUP_SOCIAL</code>, you first need to find out which value (<code>5</code> or <code>6</code>) is referring to Facebook.</li></ul>
+
+<h2>Making the Improvements </h2>
+
+<p>An object with all the above issues fixed would look something like this:</p>
+
+<pre class="wp-block-code"><code class="hljs"><span class="hljs-keyword">const</span> CHANNEL_BLOG = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">const</span> CHANNEL_WORDPRESS = <span class="hljs-number">2</span>;
+<span class="hljs-keyword">const</span> CHANNEL_SHOPIFY = <span class="hljs-number">3</span>;
+<span class="hljs-keyword">const</span> CHANNEL_FACEBOOK = <span class="hljs-number">5</span>;
+<span class="hljs-keyword">const</span> CHANNEL_TWITTER = <span class="hljs-number">6</span>;
+
+<span class="hljs-keyword">const</span> constants = {
+  CHANNEL_BLOG,
+  CHANNEL_WORDPRESS,
+  CHANNEL_SHOPIFY,
+  CHANNEL_FACEBOOK,
+  CHANNEL_TWITTER,
+
+  CHANNEL_GROUP_PERSONAL: [CHANNEL_BLOG, CHANNEL_WORDPRESS, CHANNEL_SHOPIFY],
+  CHANNEL_GROUP_SOCIAL: [CHANNEL_FACEBOOK, CHANNEL_TWITTER],
+
+  CHANNEL_NAMES: {
+    [<span class="hljs-meta">CHANNEL_BLOG</span>]: <span class="hljs-string">'Blog'</span>,
+    [<span class="hljs-meta">CHANNEL_WORDPRESS</span>]: <span class="hljs-string">'WordPress'</span>,
+    [<span class="hljs-meta">CHANNEL_SHOPIFY</span>]: <span class="hljs-string">'Shopify'</span>,
+    [<span class="hljs-meta">CHANNEL_FACEBOOK</span>]: <span class="hljs-string">'Facebook'</span>,
+    [<span class="hljs-meta">CHANNEL_TWITTER</span>]: <span class="hljs-string">'Twitter'</span>,
+  },
+  CHANNEL_ROUTES: {
+    [<span class="hljs-meta">CHANNEL_BLOG</span>]: <span class="hljs-string">'channels/blog'</span>,
+    [<span class="hljs-meta">CHANNEL_WORDPRESS</span>]: <span class="hljs-string">'channels/wordpress'</span>,
+    [<span class="hljs-meta">CHANNEL_SHOPIFY</span>]: <span class="hljs-string">'channels/shopify'</span>,
+    [<span class="hljs-meta">CHANNEL_FACEBOOK</span>]: <span class="hljs-string">'channels/facebook'</span>,
+    [<span class="hljs-meta">CHANNEL_TWITTER</span>]: <span class="hljs-string">'channels/twitter'</span>,
+  },
+};
+</code></pre>
+
+<p>Let&#8217;s look at the new object more closely:</p>
+
+<ol><li>We refactored the channel definitions into variables. This allows us to reuse them as values for other constants.</li><li>We replaced the fixed values inside the channel groups. This makes it easy for someone to read what channels are in each group. The mistake mentioned above where someone forgot to remove all values of a constant also won&#8217;t be possible to repeat in the future. This is because as soon as you remove a constant and don&#8217;t remove all its usages, you will start seeing the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Not_defined" target="_blank" rel="noreferrer noopener">ReferenceError: &#8220;x&#8221; is not defined</a> error.</li><li>We replaced the fixed property keys of <code>CHANNEL_NAMES</code> and <code>CHANNEL_ROUTES</code> with the channel variables. We did so by using <a rel="noreferrer noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#new_notations_in_ecmascript_2015" target="_blank">computed property names</a>.</li></ol>
+
+<p>As you can see, there are multiple changes that we need to do for each constant. In the case of our app where we have 30+ channels, there is a good chance that I would make a mistake while refactoring. I hope at this point you agree that the upfront investment of writing a unit test is well worth it.</p>
+
+<h2>Creating the Unit Test</h2>
+
+<p>For this task, the unit test needs to check the original object and compare it to the modified version. In our app we use <a href="https://jestjs.io/" target="_blank" rel="noreferrer noopener">Jest</a> to write our unit and integration tests.</p>
+
+<p>We could include the original object inside the test and use <a href="https://jestjs.io/docs/expect#tomatchobjectobject" target="_blank" rel="noreferrer noopener">toMatchObject</a> matcher but I instead opted to create a snapshot:</p>
+
+<pre class="wp-block-code"><code class="hljs"><span class="hljs-keyword">import</span> constants <span class="hljs-keyword">from</span> <span class="hljs-string">'../constants'</span>;
+
+it(<span class="hljs-string">'should match the original object'</span>, () =&gt; {
+  expect(constants).toMatchSnapshot();
+});
+</code></pre>
+
+<p>When we run the test for the first time, Jest will remember the object value by storing it as a snapshot. It will then use the snapshot for comparison when we run the test again.</p>
+
+<p>To run the test I used the following Jest CLI command:</p>
+
+<pre class="wp-block-code"><code class="hljs">jest contants.test.js --watch</code></pre>
+
+<p>The <code>--watch</code> mode makes sure to automatically run the test each time we make a change.</p>
+
+<p>Once I had the unit test in place, I went step-by-step making small changes. If I made a mistake after a change, the unit test would let me know and point to the issue. Fixing a mistake was fast and simple. After I had made all the changes, I removed the unit test and opened a pull request.</p>
+
+<h2>Conclusion</h2>
+
+<p>We need to be confident that we will not introduce any issues in our codebase when making refactorings.</p>
+
+<p>If the change is small and isolated (changing a variable name, fixing a typo, etc.), checking the change manually can be a valid approach.</p>
+
+<p>But in a lot of cases making sure a unit test is watching over our changes is the practical way to go. This is especially true in situations when making:</p>
+
+<ul><li>large changes,</li><li>changes that affect multiple parts,</li><li>changes that require you to test many cases.</li></ul>
+
+<p>When we are refactoring a part of the codebase that is not yet covered by an automated test, we should check to see if introducing a test to the codebase will provide value. If so, then we need to make sure to write a test that is not going to be a maintenance burden. <a href="https://jestjs.io/docs/snapshot-testing" target="_blank" rel="noreferrer noopener">Jest snapshots</a> were a great use case for this throwaway test but in a lot of cases can be a maintenance nightmare as your tests can report false negatives.</p>
+    </div>
+  </article>
+
+  
+  <div class="post-nav">
+            <a class="post-nav__prev" href="/passionate-programmer/">
+          Previous
+          <small>Lessons Learned: The Passionate Programmer</small>
+        </a>
+      
+            <a class="post-nav__next" href="/why-oh-why/">
+          Next
+          <small>Why, Oh Why Was This Added?</small>
+        </a>
+        </div>
+
+      <footer class="footer">
+        <div class="footer__avatar">
+          <img loading="lazy" src="/assets/img/avatar.jpg" alt="Žiga Miklič">
+        </div>
+        <div class="footer__main">Blog by <a target="_blank" rel="noreferrer" href="https://twitter.com/zigamiklic">Žiga Miklič</a></div>
+        <div class="footer__desc">Thank you for visiting my small fragment of the web.</div>
+
+        <button type="button" class="theme-switch" id="theme-switch">
+          <svg xmlns="http://www.w3.org/2000/svg" class="theme-switch__icon-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="theme-switch__icon-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+
+          Switch theme
+        </button>
+      </footer>  
+    </div>
+  </div>
+</body>
+</html>

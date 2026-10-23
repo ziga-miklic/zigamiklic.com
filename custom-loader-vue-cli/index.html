@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#313846">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#313846">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <title>Adding a custom loader in a Vue CLI app</title>
+  <link rel="canonical" href="https://zigamiklic.com/custom-loader-vue-cli/" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Adding a custom loader in a Vue CLI app" />
+  <meta property="og:description" content="How to add a Webpack loader if a default one is already set." />
+  <meta property="og:url" content="https://zigamiklic.com/custom-loader-vue-cli/" />
+  <meta property="og:site_name" content="Blog by Žiga Miklič" />
+  <meta property="article:published_time" content="2019-01-04T13:34:04+00:00" />
+  <meta property="article:modified_time" content="2022-05-26T11:38:25+00:00" />
+  <meta property="og:image" content="https://zigamiklic.com/assets/img/posts/custom-loader-vue-cli.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="675" />
+  <meta property="og:image:type" content="image/png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://zigamiklic.com/assets/img/posts/custom-loader-vue-cli.png" />
+  <meta name="twitter:creator" content="@zigamiklic" />
+  <meta name="twitter:site" content="@zigamiklic" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://zigamiklic.com/#website","url":"https://zigamiklic.com/","name":"Blog by Žiga Miklič","description":"","inLanguage":"en-US"},{"@type":"ImageObject","inLanguage":"en-US","@id":"https://zigamiklic.com/custom-loader-vue-cli/#primaryimage","url":"https://zigamiklic.com/assets/img/posts/custom-loader-vue-cli.png","contentUrl":"https://zigamiklic.com/assets/img/posts/custom-loader-vue-cli.png","width":1200,"height":675},{"@type":"WebPage","@id":"https://zigamiklic.com/custom-loader-vue-cli/#webpage","url":"https://zigamiklic.com/custom-loader-vue-cli/","name":"Adding a custom loader in a Vue CLI app","isPartOf":{"@id":"https://zigamiklic.com/#website"},"primaryImageOfPage":{"@id":"https://zigamiklic.com/custom-loader-vue-cli/#primaryimage"},"datePublished":"2019-01-04T13:34:04+00:00","dateModified":"2022-05-26T11:38:25+00:00","author":{"@id":"https://zigamiklic.com/#/schema/person/387c55cf9186d8933eac06ba734d7266"},"breadcrumb":{"@id":"https://zigamiklic.com/custom-loader-vue-cli/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://zigamiklic.com/custom-loader-vue-cli/"]}]},{"@type":"BreadcrumbList","@id":"https://zigamiklic.com/custom-loader-vue-cli/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://zigamiklic.com/"},{"@type":"ListItem","position":2,"name":"Adding a custom loader in a Vue CLI app"}]},{"@type":"Person","@id":"https://zigamiklic.com/#/schema/person/387c55cf9186d8933eac06ba734d7266","name":"ziga-miklic","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://zigamiklic.com/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/b3e77ff043e47aa9160af3dacd6ec7fc?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/b3e77ff043e47aa9160af3dacd6ec7fc?s=96&d=mm&r=g","caption":"ziga-miklic"}}]}</script>
+  <link rel="stylesheet" href="/assets/css/atom-one-dark.min.css">
+  <link rel="stylesheet" href="/assets/css/reboot.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script>
+    (function () {
+      var m = document.cookie.match(/(?:^|; )zm-theme=(light|dark)/);
+      if (m) document.documentElement.classList.add("theme--" + m[1]);
+    })();
+  </script>
+  <script src="/assets/js/app.js" defer></script>
+</head>
+<body class="single-post">
+
+  <div class="site">
+    <div class="container">
+
+<a href="/" class="home-link">See all posts</a>
+
+  <article class="post-single">
+    <header class="post-single__header">
+      <h1 class="post-single__title">Adding a custom loader in a Vue CLI app</h1>
+      <div class="post-single-meta">
+        <div class="post-single-meta__item--date">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          January 4, 2019 
+        </div>
+        <div class="post-single-meta__item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          2 min
+        </div>
+      </div>
+
+      <div class="post-single__img wp-block-image">    </header>
+
+    <div class="post-single__content">
+
+<p>A project required me to add a custom loader called <a rel="noreferrer noopener" aria-label="SVG sprite loader (opens in a new tab)" href="https://github.com/kisenka/svg-sprite-loader" target="_blank">SVG sprite loader</a>. I placed the loader code inside <em>vue-config.js</em>, but was suprised to see the loader not getting applied. </p>
+
+<p>The reason was due to <a rel="noreferrer noopener" aria-label="Vue CLI (opens in a new tab)" href="https://cli.vuejs.org/" target="_blank">Vue CLI</a> already providing a Webpack rule for SVG images. To know what rules are already added, Vue CLI provides the <a rel="noreferrer noopener" aria-label="inspect command (opens in a new tab)" href="https://cli.vuejs.org/guide/webpack.html#modifying-options-of-a-plugin" target="_blank"><code>inspect</code> command</a>. </p>
+
+<p> In my case I used <code>vue inspect --rule svg</code> to get the rule for SVGs: </p>
+
+<pre class="wp-block-code"><code class="hljs">{
+  <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.(svg)(\?.*)?$/</span>,
+  <span class="hljs-attr">use</span>: [
+    <span class="hljs-comment">/* config.module.rule('svg').use('file-loader') */</span>
+    {
+      <span class="hljs-attr">loader</span>: <span class="hljs-string">'file-loader'</span>,
+      <span class="hljs-attr">options</span>: {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">'img/[name].[hash:8].[ext]'</span>
+      }
+    }
+  ]
+}</code></pre>
+
+<p>If you want to see all the rules, I recommend outputting the list into a file, instead of the terminal, by using <code>vue inspect &gt; output.js</code>. </p>
+
+<p>So how do you make sure your rule gets applied? You first will need to clear the default rule before your loader: </p>
+
+<pre class="wp-block-code"><code class="hljs"><span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-attr">chainWebpack</span>: <span class="hljs-function"><span class="hljs-params">config</span> =&gt;</span> {
+    <span class="hljs-comment">/* Remove the default rule */</span>
+    <span class="hljs-keyword">const</span> svgRule = config.module.rule(<span class="hljs-string">'svg'</span>);
+
+    svgRule.uses.clear();
+
+    <span class="hljs-comment">/* Custom SVG loader */</span>
+    svgRule
+      .use(<span class="hljs-string">'svg-sprite-loader'</span>)
+        .loader(<span class="hljs-string">'svg-sprite-loader'</span>)
+        .tap(<span class="hljs-function"><span class="hljs-params">options</span> =&gt;</span> {
+          <span class="hljs-keyword">const</span> newOptions = {
+            <span class="hljs-attr">symbolId</span>: <span class="hljs-string">'[name][hash]'</span>
+          };
+
+          <span class="hljs-keyword">return</span> { ...options, ...newOptions };
+        })
+        .end()
+  },
+}</code></pre>
+    </div>
+  </article>
+
+  
+  <div class="post-nav">
+    
+            <a class="post-nav__next" href="/simple-sitemap-for-vue-router/">
+          Next
+          <small>Simple Sitemap For Vue Router</small>
+        </a>
+        </div>
+
+      <footer class="footer">
+        <div class="footer__avatar">
+          <img loading="lazy" src="/assets/img/avatar.jpg" alt="Žiga Miklič">
+        </div>
+        <div class="footer__main">Blog by <a target="_blank" rel="noreferrer" href="https://twitter.com/zigamiklic">Žiga Miklič</a></div>
+        <div class="footer__desc">Thank you for visiting my small fragment of the web.</div>
+
+        <button type="button" class="theme-switch" id="theme-switch">
+          <svg xmlns="http://www.w3.org/2000/svg" class="theme-switch__icon-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="theme-switch__icon-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+
+          Switch theme
+        </button>
+      </footer>  
+    </div>
+  </div>
+</body>
+</html>

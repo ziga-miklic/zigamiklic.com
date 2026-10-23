@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#313846">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#313846">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <title>Why, Oh Why Was This Added?</title>
+  <link rel="canonical" href="https://zigamiklic.com/why-oh-why/" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Why, Oh Why Was This Added?" />
+  <meta property="og:description" content="In this post, I take you on a debugging journey and show you why it might be a good idea to add a comment next to a certain method." />
+  <meta property="og:url" content="https://zigamiklic.com/why-oh-why/" />
+  <meta property="og:site_name" content="Blog by Žiga Miklič" />
+  <meta property="article:published_time" content="2022-05-26T15:52:17+00:00" />
+  <meta property="article:modified_time" content="2022-05-26T16:30:39+00:00" />
+  <meta property="og:image" content="https://zigamiklic.com/assets/img/posts/why-oh-why.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="675" />
+  <meta property="og:image:type" content="image/png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://zigamiklic.com/assets/img/posts/why-oh-why.png" />
+  <meta name="twitter:creator" content="@zigamiklic" />
+  <meta name="twitter:site" content="@zigamiklic" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://zigamiklic.com/#website","url":"https://zigamiklic.com/","name":"Blog by Žiga Miklič","description":"","inLanguage":"en-US"},{"@type":"ImageObject","inLanguage":"en-US","@id":"https://zigamiklic.com/why-oh-why/#primaryimage","url":"https://zigamiklic.com/assets/img/posts/why-oh-why.png","contentUrl":"https://zigamiklic.com/assets/img/posts/why-oh-why.png","width":1200,"height":675},{"@type":"WebPage","@id":"https://zigamiklic.com/why-oh-why/#webpage","url":"https://zigamiklic.com/why-oh-why/","name":"Why, Oh Why Was This Added?","isPartOf":{"@id":"https://zigamiklic.com/#website"},"primaryImageOfPage":{"@id":"https://zigamiklic.com/why-oh-why/#primaryimage"},"datePublished":"2022-05-26T15:52:17+00:00","dateModified":"2022-05-26T16:30:39+00:00","author":{"@id":"https://zigamiklic.com/#/schema/person/387c55cf9186d8933eac06ba734d7266"},"breadcrumb":{"@id":"https://zigamiklic.com/why-oh-why/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://zigamiklic.com/why-oh-why/"]}]},{"@type":"BreadcrumbList","@id":"https://zigamiklic.com/why-oh-why/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://zigamiklic.com/"},{"@type":"ListItem","position":2,"name":"Why, Oh Why Was This Added?"}]},{"@type":"Person","@id":"https://zigamiklic.com/#/schema/person/387c55cf9186d8933eac06ba734d7266","name":"ziga-miklic","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://zigamiklic.com/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/b3e77ff043e47aa9160af3dacd6ec7fc?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/b3e77ff043e47aa9160af3dacd6ec7fc?s=96&d=mm&r=g","caption":"ziga-miklic"}}]}</script>
+  <link rel="stylesheet" href="/assets/css/atom-one-dark.min.css">
+  <link rel="stylesheet" href="/assets/css/reboot.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script>
+    (function () {
+      var m = document.cookie.match(/(?:^|; )zm-theme=(light|dark)/);
+      if (m) document.documentElement.classList.add("theme--" + m[1]);
+    })();
+  </script>
+  <script src="/assets/js/app.js" defer></script>
+</head>
+<body class="single-post">
+
+  <div class="site">
+    <div class="container">
+
+<a href="/" class="home-link">See all posts</a>
+
+  <article class="post-single">
+    <header class="post-single__header">
+      <h1 class="post-single__title">Why, Oh Why Was This Added?</h1>
+      <div class="post-single-meta">
+        <div class="post-single-meta__item--date">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          May 26, 2022 
+        </div>
+        <div class="post-single-meta__item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          4 min
+        </div>
+      </div>
+
+      <div class="post-single__img wp-block-image">    </header>
+
+    <div class="post-single__content">
+
+<p>To read this post you will need to use a bit of your imagination.</p>
+
+<p>Suppose you are checking a component called <code>DatePicker</code> that is built on top of a 3rd party date picker component. You are tasked to find if the component is causing problems now that you have updated another project dependency. </p>
+
+<p>It is a larger update, so there are some breaking changes. From the migration guide, you even know exactly what can be the cause of the issues: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation" target="_blank" rel="noreferrer noopener">event.stopPropagation()</a>. That is exactly why you have <code>DatePicker</code> opened &#8211; it&#8217;s using <code>event.stopPropagation()</code> in one of its event handlers:</p>
+
+<div class="wp-block-group">
+<pre class="wp-block-code"><code class="hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DatePicker</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleDateChange</span>(<span class="hljs-params">event</span>) </span>{
+    event.stopPropagation();
+  }
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ThirdPartyDatePicker</span>
+      <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleDateChange}</span>
+    /&gt;</span>
+  );
+}</span></code></pre>
+
+<p class="has-text-align-center caption has-small-font-size">A simplified version of the component</p>
+</div>
+
+<p>But, why was that <code>event.stopPropagation()</code> added? To know if the migration broke something, you first have to find the reason why it exists in the first place. Taking a sip of your coffee, you embark on your debugging journey.</p>
+
+<h2>Debugging Journey</h2>
+
+<p>When you remove <code>event.stopPropagation()</code>, you don&#8217;t see any difference. All the tests are passing. You check the 3rd party date picker project/documentation if there is a specific reason but return empty-handed. You then revert all the migration changes and remove <code>event.stopPropagation()</code> in your current app version. You also don&#8217;t see a noticeable difference. You start asking yourself if it serves a purpose at all.</p>
+
+<p>You then check the Git history and see <code>event.stopPropagation()</code> is there since the initial version and there is no info about it in the commit message. Another dead end. Finally, you check who implemented it. Maybe they know some secret you don&#8217;t. Maybe it&#8217;s something super obvious that you are missing. Finally, they will solve this mystery and you will be able to go to bed peacefully tonight! Well, it turns out the original author no longer works at the company.</p>
+
+<p>But you are still hesitant to remove it. Surely it was not added for no reason? You don&#8217;t want to <a href="https://fs.blog/chestertons-fence/" target="_blank" rel="noreferrer noopener">make assumptions</a> and repeat your <a href="/cautionary-tale/" target="_blank" rel="noreferrer noopener">past mistakes</a>. So you search your app where the component is used and try to spot any special use cases. And after a while you do. In one use case (out of 100+) the <code>DatePicker</code> component is placed inside another component in which preventing event bubbling is required. To make sure you don&#8217;t forget, you quickly add a comment explaining why <code>event.stopPropagation()</code> is there. You are hopeful that it will help save time for someone in the future. That future someone might even be you.</p>
+
+<p>After that, you are finally able to test if the migration is causing an issue and fix it if necessary. And so you come at the end of your debugging journey. Well, sort of. You come to the end for this particular <code>event.stopPropagation()</code>. There are still quite a few more in the codebase.</p>
+
+<p>You move on to the next <code>event.stopPropagation()</code> and see that this one also does not include a comment. You read the surrounding code but again don&#8217;t know why someone added it.</p>
+
+<p>And just like that, we are again at step 1 of our debugging journey.</p>
+
+<h2>Backstory</h2>
+
+<p>Now to give you more context.</p>
+
+<p>This week I was migrating our app to React 17. I suspect you might be thinking: &#8220;React 17? You do know that <a href="https://reactjs.org/blog/2022/03/29/react-v18.html" target="_blank" rel="noreferrer noopener">React 18</a> is already out, right?&#8221; I am solely to blame here. I had concerns with React 17 breaking another dependency and postponed the update several times.</p>
+
+<p>Nevertheless, one of the things that React 17 changes is how <a href="https://reactjs.org/blog/2020/10/20/react-v17.html#changes-to-event-delegation" target="_blank" rel="noreferrer noopener">event delegation</a> works. More specifically, React no longer attaches event handlers to the&nbsp;<code>document</code>&nbsp;object but instead attaches them to the root DOM container.</p>
+
+<p>My plan for migrating to React 17 was to search our codebase for <code>event.stopPropagation()</code> and then test the UI to make sure everything was working correctly. But while I was going through each use case, I realized just how little information <code>event.stopPropagation()</code> provides. We usually call it at the top of event handlers without any extra info. When checking the code you know <em>what </em>it is doing (preventing event bubbling) but you don&#8217;t know <em>why</em>.</p>
+
+<p>Some use cases were obvious by looking at the surrounding code but for a lot of them, it took me a while to figure it out. These ambiguous use cases fell into four categories:</p>
+
+<ul><li>They prevent triggering events in components nested many levels higher.</li><li>They solve very specific edge cases.</li><li>They prevent triggering events in 3rd party libraries.</li><li>They exist for no reason<sup>[<a href="#footnotes">1</a>]</sup>.</li></ul>
+
+<p>Please note that I am not writing this post to point fingers at my coworkers. I have written this post primarily for myself as I have also written many times <code>event.stopPropagation()</code> without including a comment. I write it automatically when the need arises without giving it a second thought.</p>
+
+<h2>Conclusion</h2>
+
+<p>While not commenting your <code>event.stopPropagation()</code> calls is usually not a big deal, it may be a problem in situations like mine where I had to go over many ambiguous use cases at once. This resulted in a lot of wasted time that could be otherwise avoided if the original author added a comment.</p>
+
+<p>So the next time you are writing <code>event.stopPropagation()</code>, stop and think if adding a comment where you explain why it is there would benefit a future reader. Your colleagues or your future self will be grateful that you did.</p>
+    </div>
+  </article>
+
+  		<div class="post-footnotes" id="footnotes">
+      <div class="post-footnotes__title">Footnotes</div>
+			<ol>
+<li>In these cases, I got my answer in the commit history. Someone added an <code>event.stopPropagation()</code> to one event handler and then others copied it to their event handlers. I think they had the same issue I had &#8211; they did not know why it was there. They assumed it served a purpose and copied it.</li>
+</ol>
+		</div>
+		
+  <div class="post-nav">
+            <a class="post-nav__prev" href="/refactoring-with-confidence/">
+          Previous
+          <small>Refactoring With Confidence</small>
+        </a>
+      
+      </div>
+
+      <footer class="footer">
+        <div class="footer__avatar">
+          <img loading="lazy" src="/assets/img/avatar.jpg" alt="Žiga Miklič">
+        </div>
+        <div class="footer__main">Blog by <a target="_blank" rel="noreferrer" href="https://twitter.com/zigamiklic">Žiga Miklič</a></div>
+        <div class="footer__desc">Thank you for visiting my small fragment of the web.</div>
+
+        <button type="button" class="theme-switch" id="theme-switch">
+          <svg xmlns="http://www.w3.org/2000/svg" class="theme-switch__icon-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="theme-switch__icon-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+
+          Switch theme
+        </button>
+      </footer>  
+    </div>
+  </div>
+</body>
+</html>
